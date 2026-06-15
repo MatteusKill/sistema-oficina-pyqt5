@@ -5,8 +5,8 @@ def get_conexao():
     try:
         conexao = mysql.connector.connect(
             host="localhost",
-            user="meu_usuario",        # troca se criou outro usuário
-            password="123",        # troca pela sua senha
+            user="meu_usuario",
+            password="123",
             database="oficina_estacio"
         )
         return conexao
