@@ -96,7 +96,7 @@
        <item>
         <widget class="QPushButton" name="btn_sair">
          <property name="text">
-          <string>PushButton</string>
+          <string>Sair</string>
          </property>
         </widget>
        </item>

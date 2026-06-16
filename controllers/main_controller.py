@@ -43,6 +43,10 @@ class MainController(QMainWindow):
         self.tela_ordens = OrdensController()
         self.ui.stackedWidget.addWidget(self.tela_ordens)
 
+        from controllers.dashboard_controller import DashboardController
+        self.tela_dashboard = DashboardController()
+        self.ui.stackedWidget.addWidget(self.tela_dashboard)
+
         self.ui.btn_toggle.clicked.connect(self.toggle_sidebar)
         self.ui.btn_dashboard.clicked.connect(self.abrir_dashboard)
         self.ui.btn_clientes.clicked.connect(self.abrir_clientes)
@@ -59,6 +63,8 @@ class MainController(QMainWindow):
         self.ui.btn_ordens.setToolTip("Ordens de Serviço")
         self.ui.btn_sair.setToolTip("Sair")
         self.ui.btn_toggle.setToolTip("Abrir/Fechar menu")
+
+        self.abrir_dashboard()
 
     def toggle_sidebar(self):
         if self.sidebar_aberta == True:
@@ -101,7 +107,7 @@ class MainController(QMainWindow):
             self.ui.btn_sair.setText("Sair")
 
     def abrir_dashboard(self):
-        self.ui.stackedWidget.setCurrentIndex(0)
+        self.ui.stackedWidget.setCurrentWidget(self.tela_dashboard)
 
     def abrir_clientes(self):
         self.ui.stackedWidget.setCurrentWidget(self.tela_clientes)

@@ -102,7 +102,7 @@ class Ui_MainWindow(object):
         self.btn_carros.setText(_translate("MainWindow", "Carros"))
         self.btn_servicos.setText(_translate("MainWindow", "Serviços"))
         self.btn_ordens.setText(_translate("MainWindow", "Ordens de Serviço"))
-        self.btn_sair.setText(_translate("MainWindow", "PushButton"))
+        self.btn_sair.setText(_translate("MainWindow", "Sair"))
         self.btn_toggle.setText(_translate("MainWindow", "PushButton"))
         self.label_titulo.setText(_translate("MainWindow", "GMA Autogestão"))
         self.label_usuario.setText(_translate("MainWindow", "Admin"))
