@@ -1,3 +1,5 @@
-echo "venv/" > .gitignore
-echo "__pycache__/" >> .gitignore
-echo "*.pyc" >> .gitignore
+rm teste_conexao.py
+echo "teste_conexao.py" >> .gitignore
+git add .
+git commit -m "chore: remove arquivo de teste"
+git push
