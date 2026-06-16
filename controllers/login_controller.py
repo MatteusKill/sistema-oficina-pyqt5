@@ -1,13 +1,19 @@
-from PyQt5.QtWidgets import (
-    QMainWindow, QWidget, QHBoxLayout, QVBoxLayout,
-    QLabel, QLineEdit, QPushButton, QSizePolicy
-)
+from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QHBoxLayout
+from PyQt5.QtWidgets import QVBoxLayout
+from PyQt5.QtWidgets import QLabel
+from PyQt5.QtWidgets import QLineEdit
+from PyQt5.QtWidgets import QPushButton
+from PyQt5.QtWidgets import QSizePolicy
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
-from database.conexao import get_conexao, fechar_conexao
+from database.conexao import get_conexao
+from database.conexao import fechar_conexao
 
 
 class LoginController(QMainWindow):
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle("GMA Auto Gestão")
@@ -30,13 +36,15 @@ class LoginController(QMainWindow):
 
         self.label_imagem = QLabel()
         self.label_imagem.setAlignment(Qt.AlignCenter)
-        pixmap = QPixmap("assets/oficina.png")
-        if not pixmap.isNull():
+
+        pixmap = QPixmap("assets/img/oficina.png")
+
+        if pixmap.isNull() == False:
             self.label_imagem.setPixmap(
                 pixmap.scaled(500, 500, Qt.KeepAspectRatio, Qt.SmoothTransformation)
             )
         else:
-            self.label_imagem.setText("🔧")
+            self.label_imagem.setText("GMA")
             self.label_imagem.setStyleSheet("font-size: 80px;")
 
         layout_esquerdo.addWidget(self.label_imagem)
@@ -52,15 +60,11 @@ class LoginController(QMainWindow):
 
         label_titulo = QLabel("GMA Auto Gestão")
         label_titulo.setAlignment(Qt.AlignCenter)
-        label_titulo.setStyleSheet(
-            "color: #ffffff; font-size: 24px; font-weight: bold; background: transparent;"
-        )
+        label_titulo.setStyleSheet("color: #ffffff; font-size: 24px; font-weight: bold; background: transparent;")
 
         label_subtitulo = QLabel("Sistema de Oficina & Serviços")
         label_subtitulo.setAlignment(Qt.AlignCenter)
-        label_subtitulo.setStyleSheet(
-            "color: #c9d8eb; font-size: 13px; background: transparent; margin-bottom: 20px;"
-        )
+        label_subtitulo.setStyleSheet("color: #c9d8eb; font-size: 13px; background: transparent;")
 
         label_usuario = QLabel("Usuário")
         label_usuario.setStyleSheet("color: #c9d8eb; font-size: 13px; background: transparent;")
@@ -139,16 +143,17 @@ class LoginController(QMainWindow):
         layout_principal.addWidget(self.painel_direito, 1)
 
     def fazer_login(self):
-        usuario = self.input_usuario.text().strip()
-        senha = self.input_senha.text().strip()
+        usuario = self.input_usuario.text()
+        senha = self.input_senha.text()
 
-        if not usuario or not senha:
-            self.label_erro.setText("Preencha todos os campos.")
+        if usuario == "" or senha == "":
+            self.label_erro.setText("Preencher os campos.")
             return
 
         conexao = get_conexao()
-        if not conexao:
-            self.label_erro.setText("Erro ao conectar ao banco.")
+
+        if conexao == None:
+            self.label_erro.setText("Erro ao tentar se conectar ao banco.")
             return
 
         cursor = conexao.cursor()
@@ -159,9 +164,14 @@ class LoginController(QMainWindow):
         resultado = cursor.fetchone()
         fechar_conexao(conexao, cursor)
 
-        if resultado:
+        if resultado != None:
             self.label_erro.setStyleSheet("color: #27ae60; font-size: 12px; background: transparent;")
             self.label_erro.setText("Login realizado com sucesso!")
+
+            from controllers.main_controller import MainController
+            self.tela_principal = MainController()
+            self.tela_principal.show()
+            self.close()
         else:
             self.label_erro.setStyleSheet("color: #e74c3c; font-size: 12px; background: transparent;")
             self.label_erro.setText("Usuário ou senha inválidos.")

@@ -1,5 +1,4 @@
 import mysql.connector
-from mysql.connector import Error
 
 def get_conexao():
     try:
@@ -10,13 +9,13 @@ def get_conexao():
             database="oficina_estacio"
         )
         return conexao
-    except Error as e:
-        print(f"Erro ao conectar ao banco: {e}")
+    except Exception as erro:
+        print("Erro ao conectar:", erro)
         return None
 
-
 def fechar_conexao(conexao, cursor=None):
-    if cursor:
+    if cursor != None:
         cursor.close()
-    if conexao and conexao.is_connected():
-        conexao.close()
+    if conexao != None:
+        if conexao.is_connected():
+            conexao.close()
