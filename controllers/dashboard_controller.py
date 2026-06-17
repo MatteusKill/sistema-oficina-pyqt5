@@ -12,16 +12,13 @@ class DashboardController(QWidget):
     def __init__(self):
         super().__init__()
 
-        # Carrega a interface do Qt Designer
         self.ui = Ui_Form()
         self.ui.setupUi(self)
 
-        # Configura a tabela
         self.ui.tabela_ultimas_os.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.ui.tabela_ultimas_os.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.ui.tabela_ultimas_os.setSelectionBehavior(QAbstractItemView.SelectRows)
 
-        # Carrega os dados do dashboard
         self.carregar_dados()
 
     def carregar_dados(self):
@@ -32,31 +29,25 @@ class DashboardController(QWidget):
 
         cursor = conexao.cursor()
 
-        # Conta total de clientes
         cursor.execute("SELECT COUNT(*) FROM cliente")
         total_clientes = cursor.fetchone()[0]
 
-        # Conta total de carros
         cursor.execute("SELECT COUNT(*) FROM carro")
         total_carros = cursor.fetchone()[0]
 
-        # Conta OS abertas
         cursor.execute("SELECT COUNT(*) FROM ordem_servico WHERE status = 'aberta'")
         total_os = cursor.fetchone()[0]
 
-        # Conta serviços ativos
         cursor.execute("SELECT COUNT(*) FROM servico WHERE ativo = 1")
         total_servicos = cursor.fetchone()[0]
 
         fechar_conexao(conexao, cursor)
 
-        # Atualiza os números nos cards
         self.ui.label_total_clientes.setText(str(total_clientes))
         self.ui.label_total_carros.setText(str(total_carros))
         self.ui.label_total_os.setText(str(total_os))
         self.ui.label_total_servicos.setText(str(total_servicos))
 
-        # Carrega últimas 5 OS na tabela
         conexao = get_conexao()
 
         if conexao == None:
@@ -74,7 +65,6 @@ class DashboardController(QWidget):
         ordens = cursor.fetchall()
         fechar_conexao(conexao, cursor)
 
-        # Limpa e preenche a tabela
         self.ui.tabela_ultimas_os.setRowCount(0)
 
         for ordem in ordens:
